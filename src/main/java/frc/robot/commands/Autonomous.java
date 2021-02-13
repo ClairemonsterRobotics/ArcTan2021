@@ -55,23 +55,23 @@ public class Autonomous extends Command {
     
     private boolean AS_Dismount(double distR, double distL){
         double avg = 0.5*(distR+distL);
-        // Robot.driveSub.driveStraight(dismountSpeed * invert);
+        Robot.driveSub.driveStraight(dismountSpeed * invert);
         return (avg >= dismountDistance);
     }
     private boolean AS_Advance(double distR, double distL){
         double avg = 0.5*(distR+distL);
-        // Robot.driveSub.driveStraight(advanceSpeed * invert);
+        Robot.driveSub.driveStraight(advanceSpeed * invert);
         return (avg >= advanceDistance);
     }
     private boolean AS_Turn(double distR, double distL){
         double dist = -0.5*(distR-distL);
         double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
-        // Robot.driveSub.swivelRight(turnSpeed);
+        Robot.driveSub.swivelRight(turnSpeed);
         return (degreesTurned >= turnDegrees);
     }
     private boolean AS_Approach(double distR, double distL){
         double avg = 0.5*(distR+distL);
-        // Robot.driveSub.driveStraight(approachSpeed * invert);
+        Robot.driveSub.driveStraight(approachSpeed * invert);
         return (avg >= approachDistance);
     }
     // Called just before this Command runs the first time
@@ -121,12 +121,12 @@ public class Autonomous extends Command {
                 break;
             case END:
                 Robot.driveSub.resetEncoders();
-                // Robot.driveSub.stop();
+                Robot.driveSub.stop();
                 // new arcadeDrive();
                 break;
             default:
                 Robot.driveSub.resetEncoders();
-                // Robot.driveSub.stop();
+                Robot.driveSub.stop();
         }
     }
 
