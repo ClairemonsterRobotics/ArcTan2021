@@ -92,7 +92,7 @@ public class Autonomous extends Command {
                 break;
             case 4:
                 if(AS_Advance(this.approachDistance,this.approachSpeed)){
-                    nextState();
+                    curState = -1;//end routine
                 }
                 break;
             case -1:
