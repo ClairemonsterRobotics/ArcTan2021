@@ -24,7 +24,7 @@ public class Autonomous extends Command {
     // static enum AutonState{
     //     BEGIN, DISMOUNT, ADVANCE, TURN, APPROACH, END
     // }
-    int curState = 0;
+    int curStage = 0;
     final double distancePerPulse = 6*Math.PI/360;
 
     private double distR=0, distL=0;
@@ -70,35 +70,30 @@ public class Autonomous extends Command {
         distR = Robot.driveSub.rightPairEncoder.getDistance();
         distL = Robot.driveSub.leftPairEncoder.getDistance();
 
-        switch(curState){
+        switch(this.curStage){
             case 0://begin
                 new limelight();
-                nextState();
+                nextStage();
                 break;
             case 1:
                 if(AS_Advance(this.dismountSpeed,this.dismountDistance)){
-                    nextState();
+                    nextStage();
                 }
                 break;
             case 2:
                 if(AS_Advance(this.advanceSpeed,this.advanceDistance)){
-                    nextState();
+                    nextStage();
                 }
                 break;
             case 3:
                 if(AS_Turn(this.turnSpeed,this.turnDegrees)){
-                    nextState();
+                    nextStage();
                 }
                 break;
             case 4:
                 if(AS_Advance(this.approachDistance,this.approachSpeed)){
-                    curState = -1;//end routine
+                    this.curStage = -1;//end routine
                 }
-                break;
-            case -1:
-                Robot.driveSub.resetEncoders();
-                Robot.driveSub.stop();
-                // new arcadeDrive();
                 break;
             default:
                 Robot.driveSub.resetEncoders();
@@ -106,9 +101,9 @@ public class Autonomous extends Command {
         }
     }
 
-    private void nextState(){
+    private void nextStage(){
         Robot.driveSub.resetEncoders();
-        curState++;
+        this.curStage++;
     }
     private boolean AS_Advance(double advanceSpeed, double advanceDistance){
         double avg = 0.5*(distR+distL);
