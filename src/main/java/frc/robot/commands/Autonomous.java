@@ -12,6 +12,7 @@
 package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -70,29 +71,53 @@ public class Autonomous extends Command {
         distR = Robot.driveSub.rightPairEncoder.getDistance();
         distL = Robot.driveSub.leftPairEncoder.getDistance();
 
+        SmartDashboard.putString("Dist L", Double.toString(distL));
+        SmartDashboard.putString("Dist R", Double.toString(distR));
         switch(this.curStage){
             case 0://begin
                 new limelight();
                 nextStage();
                 break;
+            
             case 1:
-                if(AS_Advance(this.dismountSpeed,this.dismountDistance)){
+                if(AS_Advance(0.5,5.5)){
                     nextStage();
                 }
                 break;
             case 2:
-                if(AS_Advance(this.advanceSpeed,this.advanceDistance)){
+                if(AS_TurnRight(0.90, 0.35, 410)){
                     nextStage();
                 }
                 break;
             case 3:
-                if(AS_Turn(this.turnSpeed,this.turnDegrees)){
+                if(AS_Advance(0.5, 1.3)){
                     nextStage();
                 }
                 break;
             case 4:
-                if(AS_Advance(this.approachDistance,this.approachSpeed)){
-                    this.curStage = -1;//end routine
+                if(AS_TurnLeft(0.35, 0.90, 280)){
+                    nextStage();
+                }
+                break;
+            case 5:
+                if(AS_Advance(0.5, 4.0)){
+                    nextStage();
+                }
+                break;
+            case 6:
+                if(AS_TurnLeft(0.3, 0.85, 270)){
+                    nextStage();
+                }
+                break;
+            case 7:
+                if(AS_Advance(0.5, 8.5)){
+                    // nextStage();
+                    this.curStage=-1;
+                }
+                break;
+            case 8:
+                if(AS_TurnRight(-1,-0.45, 410)){
+                    nextStage();
                 }
                 break;
             default:
@@ -105,15 +130,30 @@ public class Autonomous extends Command {
         Robot.driveSub.resetEncoders();
         this.curStage++;
     }
-    private boolean AS_Advance(double advanceSpeed, double advanceDistance){
+    private boolean AS_Advance(double advanceSpeed, double advanceDistance){//26.67 inches = 1 unit of distance 
         double avg = 0.5*(distR+distL);
+        SmartDashboard.putString("avg", Double.toString(avg));
         Robot.driveSub.driveStraight(advanceSpeed * invert);
         return (avg >= advanceDistance);
     }
-    private boolean AS_Turn(double turnSpeed, double turnDegrees){
+
+    private boolean AS_TurnLeft(double leftDistance, double rightDistance, double turnDegrees){
         double dist = -0.5*(distR-distL);
-        double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
-        Robot.driveSub.swivelRight(turnSpeed);
+        // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
+        double degreesTurned = Math.abs(distR);
+        SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
+        SmartDashboard.putString("dist", Double.toString(dist));
+        Robot.driveSub.swivelLeft(leftDistance, rightDistance);
+        return (degreesTurned >= turnDegrees);
+    }
+
+    private boolean AS_TurnRight(double leftDistance, double rightDistance, double turnDegrees){
+        double dist = -0.5*(distR-distL);
+        // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
+        double degreesTurned = Math.abs(distL);
+        SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
+        SmartDashboard.putString("dist", Double.toString(dist));
+        Robot.driveSub.swivelRight(leftDistance, rightDistance);
         return (degreesTurned >= turnDegrees);
     }
 
