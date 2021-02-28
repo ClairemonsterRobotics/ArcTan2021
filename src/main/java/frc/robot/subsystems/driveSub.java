@@ -149,14 +149,9 @@ public class driveSub extends Subsystem {
         rightMotorPair.set(power);
     }
 
-    public void swivelRight(double powerL, double powerR) {//powers go opposite directions
-        leftMotorPair.set(powerL);
-        rightMotorPair.set(powerR);
-    }
-
-    public void swivelLeft(double powerL, double powerR) {//powers go opposite directions
-        leftMotorPair.set(-powerL);
-        rightMotorPair.set(-powerR);
+    public void swivel(char direction, double powerL, double powerR) {//powers go opposite directions
+        leftMotorPair.set(direction=='R' ? powerL : -powerL);
+        rightMotorPair.set(direction=='R' ? powerR : -powerR);
     }
 
     public void stop() {

@@ -115,7 +115,7 @@ public class Autonomous extends Command {
     private void AS_Turn(char direction, double powerL, double powerR, double outerDistanceToTravel){
         double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
         SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
-        Robot.driveSub.swivelLeft(powerL, powerR);
+        Robot.driveSub.swivel(direction, powerL, powerR);
         if (outerDistanceTraveled >= outerDistanceToTravel){
             nextStage();
         }
