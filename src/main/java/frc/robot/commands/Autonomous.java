@@ -61,8 +61,8 @@ public class Autonomous extends Command {
         distR = Robot.driveSub.rightPairEncoder.getDistance();
         distL = Robot.driveSub.leftPairEncoder.getDistance();
 
-        SmartDashboard.putString("Dist L", Double.toString(distL));
-        SmartDashboard.putString("Dist R", Double.toString(distR));
+        // SmartDashboard.putString("Dist L", Double.toString(distL));
+        // SmartDashboard.putString("Dist R", Double.toString(distR));
         switch(this.curStage){
             case 0://begin
                 new limelight();
@@ -112,28 +112,18 @@ public class Autonomous extends Command {
         }
     }
 
-    private void AS_TurnLeft(double leftDistance, double rightDistance, double turnDegrees){
-        // double dist = -0.5*(distR-distL);
-        // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
-        // SmartDashboard.putString("dist", Double.toString(dist));
-
-        double degreesTurned = Math.abs(distR);
-        SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
-        Robot.driveSub.swivelLeft(leftDistance, rightDistance);
-        if (degreesTurned >= turnDegrees){
+    private void AS_TurnLeft(double powerL, double powerR, double outerTurnDistance){
+        // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(distR)));
+        Robot.driveSub.swivelLeft(powerL, powerR);
+        if (Math.abs(distR) >= outerTurnDistance){
             nextStage();
         }
     }
 
-    private void AS_TurnRight(double leftDistance, double rightDistance, double turnDegrees){
-        // double dist = -0.5*(distR-distL);
-        // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
-        // SmartDashboard.putString("dist", Double.toString(dist));
-
-        double degreesTurned = Math.abs(distL);
-        SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
-        Robot.driveSub.swivelRight(leftDistance, rightDistance);
-        if (degreesTurned >= turnDegrees){
+    private void AS_TurnRight(double powerL, double powerR, double outerTurnDistance){
+        SmartDashboard.putString("outerTurnDistance", Double.toString(Math.abs(distL)));
+        Robot.driveSub.swivelRight(powerL, powerR);
+        if (Math.abs(distL) >= outerTurnDistance){
             nextStage();
         }
     }
