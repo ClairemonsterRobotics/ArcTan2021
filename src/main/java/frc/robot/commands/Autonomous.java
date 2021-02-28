@@ -72,25 +72,25 @@ public class Autonomous extends Command {
                 AS_Advance(0.5, 5.5);
                 break;
             case 2:
-                AS_TurnRight(0.90, 0.35, 410);
+                AS_Turn('R', 0.90, 0.35, 410);
                 break;
             case 3:
                 AS_Advance(0.5, 1.3);
                 break;
             case 4:
-                AS_TurnLeft(0.35, 0.90, 280);
+                AS_Turn('L', 0.35, 0.90, 280);
                 break;
             case 5:
                 AS_Advance(0.5, 4.0);
                 break;
             case 6:
-                AS_TurnLeft(0.3, 0.85, 270);
+                AS_Turn('L', 0.3, 0.85, 270);
                 break;
             case 7:
                 AS_Advance(0.5, 8.5);
                 break;
             case 8:
-                AS_TurnRight(-1,-0.45, 410);
+                AS_Turn('R', -1,-0.45, 410);
                 break;
             default:
                 Robot.driveSub.resetEncoders();
@@ -112,22 +112,14 @@ public class Autonomous extends Command {
         }
     }
 
-    private void AS_TurnLeft(double powerL, double powerR, double outerTurnDistance){
-        SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(distR)));
+    private void AS_Turn(char direction, double powerL, double powerR, double outerTurnDistance){
+        double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
+        SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
         Robot.driveSub.swivelLeft(powerL, powerR);
-        if (Math.abs(distR) >= outerTurnDistance){
+        if (outerDistanceTraveled >= outerTurnDistance){
             nextStage();
         }
     }
-
-    private void AS_TurnRight(double powerL, double powerR, double outerTurnDistance){
-        SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(distL)));
-        Robot.driveSub.swivelRight(powerL, powerR);
-        if (Math.abs(distL) >= outerTurnDistance){
-            nextStage();
-        }
-    }
-
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
