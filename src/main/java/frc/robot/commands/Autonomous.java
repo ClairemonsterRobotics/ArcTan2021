@@ -68,47 +68,29 @@ public class Autonomous extends Command {
                 new limelight();
                 nextStage();
                 break;
-            
             case 1:
-                if(AS_Advance(0.5,5.5)){
-                    nextStage();
-                }
+                AS_Advance(0.5, 5.5);
                 break;
             case 2:
-                if(AS_TurnRight(0.90, 0.35, 410)){
-                    nextStage();
-                }
+                AS_TurnRight(0.90, 0.35, 410);
                 break;
             case 3:
-                if(AS_Advance(0.5, 1.3)){
-                    nextStage();
-                }
+                AS_Advance(0.5, 1.3);
                 break;
             case 4:
-                if(AS_TurnLeft(0.35, 0.90, 280)){
-                    nextStage();
-                }
+                AS_TurnLeft(0.35, 0.90, 280);
                 break;
             case 5:
-                if(AS_Advance(0.5, 4.0)){
-                    nextStage();
-                }
+                AS_Advance(0.5, 4.0);
                 break;
             case 6:
-                if(AS_TurnLeft(0.3, 0.85, 270)){
-                    nextStage();
-                }
+                AS_TurnLeft(0.3, 0.85, 270);
                 break;
             case 7:
-                if(AS_Advance(0.5, 8.5)){
-                    // nextStage();
-                    this.curStage=-1;
-                }
+                AS_Advance(0.5, 8.5);
                 break;
             case 8:
-                if(AS_TurnRight(-1,-0.45, 410)){
-                    nextStage();
-                }
+                AS_TurnRight(-1,-0.45, 410);
                 break;
             default:
                 Robot.driveSub.resetEncoders();
@@ -121,14 +103,16 @@ public class Autonomous extends Command {
         this.curStage++;
     }
 
-    private boolean AS_Advance(double advanceSpeed, double advanceDistance){//26.67 inches = 1 unit of distance 
+    private void AS_Advance(double advanceSpeed, double advanceDistance){//26.67 inches = 1 unit of distance 
         double avg = 0.5*(distR+distL);
         SmartDashboard.putString("avg", Double.toString(avg));
         Robot.driveSub.driveStraight(advanceSpeed * invert);
-        return (avg >= advanceDistance);
+        if (avg >= advanceDistance){
+            nextStage();
+        }
     }
 
-    private boolean AS_TurnLeft(double leftDistance, double rightDistance, double turnDegrees){
+    private void AS_TurnLeft(double leftDistance, double rightDistance, double turnDegrees){
         // double dist = -0.5*(distR-distL);
         // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
         // SmartDashboard.putString("dist", Double.toString(dist));
@@ -136,10 +120,12 @@ public class Autonomous extends Command {
         double degreesTurned = Math.abs(distR);
         SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
         Robot.driveSub.swivelLeft(leftDistance, rightDistance);
-        return (degreesTurned >= turnDegrees);
+        if (degreesTurned >= turnDegrees){
+            nextStage();
+        }
     }
 
-    private boolean AS_TurnRight(double leftDistance, double rightDistance, double turnDegrees){
+    private void AS_TurnRight(double leftDistance, double rightDistance, double turnDegrees){
         // double dist = -0.5*(distR-distL);
         // double degreesTurned=degToRad*dist/16.0; // (arclength / robot radius)
         // SmartDashboard.putString("dist", Double.toString(dist));
@@ -147,7 +133,9 @@ public class Autonomous extends Command {
         double degreesTurned = Math.abs(distL);
         SmartDashboard.putString("degreesTurned", Double.toString(degreesTurned));
         Robot.driveSub.swivelRight(leftDistance, rightDistance);
-        return (degreesTurned >= turnDegrees);
+        if (degreesTurned >= turnDegrees){
+            nextStage();
+        }
     }
 
 
