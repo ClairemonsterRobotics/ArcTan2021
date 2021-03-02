@@ -73,18 +73,21 @@ public class Autonomous extends Command {
                 break;
             case 2:
                 AS_Turn('R', 0.90, 0.35, 410);
+                // newTurn('R', 0.9, 0.6, 410);
                 break;
             case 3:
                 AS_Advance(0.5, 1.3);
                 break;
             case 4:
                 AS_Turn('L', 0.35, 0.90, 280);
+                // newTurn('L', 0.9, 0.6, 280);
                 break;
             case 5:
                 AS_Advance(0.5, 4.0);
                 break;
             case 6:
                 AS_Turn('L', 0.3, 0.85, 270);
+                // newTurn('L', 0.85, 0.36, 270);
                 break;
             case 7:
                 AS_Advance(0.5, 8.5);
