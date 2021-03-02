@@ -106,11 +106,10 @@ public class Autonomous extends Command {
         this.curStage++;
     }
 
-    private void AS_Advance(double advanceSpeed, double advanceDistance){//26.67 inches = 1 unit of distance 
-        double avg = 0.5*(distR+distL);
-        SmartDashboard.putString("avg", Double.toString(avg));
+    private void AS_Advance(double advanceSpeed, double distanceToTravel){//26.67 inches = 1 unit of distance 
+        double distanceTraveled = 0.5*(distR+distL);
         Robot.driveSub.driveStraight(advanceSpeed * invert);
-        if (avg >= advanceDistance){
+        if (distanceTraveled >= distanceToTravel){
             nextStage();
         }
     }
