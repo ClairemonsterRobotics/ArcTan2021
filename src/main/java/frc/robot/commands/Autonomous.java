@@ -121,6 +121,23 @@ public class Autonomous extends Command {
         }
     }
 
+    /* 
+        direction: R = turn right, L = turn left
+        power: amount of power given to robot. -1 = max power backwards -> 1 = max power forwards
+        steepness: how steep the turn is. 0 = straight -> 1 = very steep
+        outerDistanceToTravel: distance the outer wheel has to travel
+    */
+    private void newTurn(char direction, double power, double steepness, double outerDistanceToTravel){
+        double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
+        // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
+        Robot.driveSub.swivel(direction, 
+            direction=='L' ? power : power*(1-steepness), 
+            direction=='R' ? power : power*(1-steepness));
+        if (outerDistanceTraveled >= outerDistanceToTravel){
+            nextStage();
+        }
+    }
+
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
