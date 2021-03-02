@@ -133,8 +133,8 @@ public class Autonomous extends Command {
         double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
         // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
         Robot.driveSub.swivel(direction, 
-            direction=='L' ? power : power*(1-steepness), 
-            direction=='R' ? power : power*(1-steepness));
+            direction=='R' ? power : power*(1-steepness), 
+            direction=='L' ? power : power*(1-steepness));
         if (outerDistanceTraveled >= outerDistanceToTravel){
             nextStage();
         }
