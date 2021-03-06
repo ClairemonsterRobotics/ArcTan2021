@@ -61,15 +61,15 @@ public class Autonomous extends Command {
         distR = Robot.driveSub.rightPairEncoder.getDistance();
         distL = Robot.driveSub.leftPairEncoder.getDistance();
 
-        // SmartDashboard.putString("Dist L", Double.toString(distL));
-        // SmartDashboard.putString("Dist R", Double.toString(distR));
+        SmartDashboard.putString("Dist L", Double.toString(distL));
+        SmartDashboard.putString("Dist R", Double.toString(distR));
         switch(this.curStage){
             case 0://begin
                 new limelight();
                 nextStage();
                 break;
             case 1:
-                AS_Advance(0.5, 5.5);
+                AS_Advance(0.5, 6);
                 break;
             case 2:
                 AS_Turn('R', 0.90, 0.35, 410);
