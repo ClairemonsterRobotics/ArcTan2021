@@ -61,8 +61,8 @@ public class Autonomous extends Command {
         distR = Robot.driveSub.rightPairEncoder.getDistance();
         distL = Robot.driveSub.leftPairEncoder.getDistance();
 
-        SmartDashboard.putString("Dist L", Double.toString(distL));
-        SmartDashboard.putString("Dist R", Double.toString(distR));
+        // SmartDashboard.putString("Dist L", Double.toString(distL));
+        // SmartDashboard.putString("Dist R", Double.toString(distR));
         switch(this.curStage){
             case 0://begin
                 new limelight();
@@ -72,22 +72,19 @@ public class Autonomous extends Command {
                 AS_Advance(0.4, 5);
                 break;
             case 2:
-                // AS_Turn('R', 0.90, 0.35, 410);
-                newTurn('R', 0.85, 0.6, 345);
+                AS_Turn('R', 0.85, 0.6, 345);
                 break;
             case 3:
                 AS_Advance(0.5, 0.50);
                 break;
             case 4:
-                // AS_Turn('L', 0.35, 0.90, 280);
-                newTurn('L', 0.85, 0.6, 280);
+                AS_Turn('L', 0.85, 0.6, 280);
                 break;
             case 5:
                 AS_Advance(0.5, 5.0);
                 break;
             case 6:
-                // AS_Turn('L', 0.3, 0.85, 195);
-                newTurn('L', 0.85, 0.36, 195);
+                AS_Turn('L', 0.85, 0.36, 195);
                 break;
             case 7:
                 AS_Advance(0.5, 15);
@@ -107,21 +104,13 @@ public class Autonomous extends Command {
         this.curStage++;
     }
 
-    private void AS_Advance(double advanceSpeed, double distanceToTravel){//26.67 inches = 1 unit of distance 
+    //1 steel (unit of distance) is roughly 26.67 inches
+    private void AS_Advance(double advanceSpeed, double distanceToTravel){
         double distanceTraveled = 0.5*(distR+distL);
-        SmartDashboard.putNumber("Distance traveled", distanceTraveled);
-        SmartDashboard.putNumber("Distance to travel", distanceToTravel);
+        // SmartDashboard.putNumber("Distance traveled", distanceTraveled);
+        // SmartDashboard.putNumber("Distance to travel", distanceToTravel);
         Robot.driveSub.driveStraight(advanceSpeed * invert);
         if (distanceTraveled >= distanceToTravel){
-            nextStage();
-        }
-    }
-
-    private void AS_Turn(char direction, double powerL, double powerR, double outerDistanceToTravel){
-        double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
-        SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
-        Robot.driveSub.swivel(direction, powerL, powerR);
-        if (outerDistanceTraveled >= outerDistanceToTravel){
             nextStage();
         }
     }
@@ -132,7 +121,7 @@ public class Autonomous extends Command {
         steepness: how steep the turn is. 0 = straight -> 1 = very steep
         outerDistanceToTravel: distance the outer wheel has to travel
     */
-    private void newTurn(char direction, double power, double steepness, double outerDistanceToTravel){
+    private void AS_Turn(char direction, double power, double steepness, double outerDistanceToTravel){
         double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
         // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
         Robot.driveSub.swivel(direction, 
