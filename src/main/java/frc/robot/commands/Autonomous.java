@@ -69,31 +69,32 @@ public class Autonomous extends Command {
                 nextStage();
                 break;
             case 1:
-                AS_Advance(0.5, 6);
+                AS_Advance(0.4, 5);
                 break;
             case 2:
-                AS_Turn('R', 0.90, 0.35, 410);
-                // newTurn('R', 0.9, 0.6, 410);
+                // AS_Turn('R', 0.90, 0.35, 410);
+                newTurn('R', 0.85, 0.6, 345);
                 break;
             case 3:
-                AS_Advance(0.5, 1.3);
+                AS_Advance(0.5, 0.50);
                 break;
             case 4:
-                AS_Turn('L', 0.35, 0.90, 280);
-                // newTurn('L', 0.9, 0.6, 280);
+                // AS_Turn('L', 0.35, 0.90, 280);
+                newTurn('L', 0.85, 0.6, 280);
                 break;
             case 5:
-                AS_Advance(0.5, 4.0);
+                AS_Advance(0.5, 5.0);
                 break;
             case 6:
-                AS_Turn('L', 0.3, 0.85, 270);
-                // newTurn('L', 0.85, 0.36, 270);
+                // AS_Turn('L', 0.3, 0.85, 195);
+                newTurn('L', 0.85, 0.36, 195);
                 break;
             case 7:
-                AS_Advance(0.5, 8.5);
+                AS_Advance(0.5, 15);
                 break;
             case 8:
-                AS_Turn('R', -1,-0.45, 410);
+                AS_Advance(0.5, 3);
+                // AS_Turn('R', -1,-0.45, 410);
                 break;
             default:
                 Robot.driveSub.resetEncoders();
@@ -108,6 +109,8 @@ public class Autonomous extends Command {
 
     private void AS_Advance(double advanceSpeed, double distanceToTravel){//26.67 inches = 1 unit of distance 
         double distanceTraveled = 0.5*(distR+distL);
+        SmartDashboard.putNumber("Distance traveled", distanceTraveled);
+        SmartDashboard.putNumber("Distance to travel", distanceToTravel);
         Robot.driveSub.driveStraight(advanceSpeed * invert);
         if (distanceTraveled >= distanceToTravel){
             nextStage();
