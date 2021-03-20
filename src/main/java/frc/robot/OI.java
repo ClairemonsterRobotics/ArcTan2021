@@ -87,8 +87,6 @@ public class OI {
         getBallButton.whileHeld(new getBall());
         lowerBallIntakeButton = new JoystickButton(driveJoystick, 10);
         lowerBallIntakeButton.whenPressed(new lowerBallIntake());
-        limelightButton = new JoystickButton(driveJoystick, 8);//7 & 8 are the little back and start buttons
-        limelightButton.whileHeld(new limelight());
 
         // SmartDashboard Buttons
         SmartDashboard.putData("Autonomous: Left", new Autonomous(0));

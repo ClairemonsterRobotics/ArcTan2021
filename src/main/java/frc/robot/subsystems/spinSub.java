@@ -125,7 +125,6 @@ public class spinSub extends Subsystem {
         spinMotor.set(TalonFXControlMode.Position, goPos + spinInitSensorValue);
         SmartDashboard.putNumber("Current pos", currentReadPos);
         SmartDashboard.putNumber("Desired pos", goPos);
-        
     }
 
     public double checkEncoders(){

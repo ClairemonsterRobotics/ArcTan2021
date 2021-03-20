@@ -8,8 +8,10 @@
 // update. Deleting the comments indicating the section will prevent
 // it from being updated in the future.
 
-
 package frc.robot.commands;
+
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,87 +52,105 @@ public class Autonomous extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
-        Robot.driveSub.leftPairEncoder.setDistancePerPulse(distancePerPulse);
-        Robot.driveSub.rightPairEncoder.setDistancePerPulse(distancePerPulse); //6 inch wheel, one pulse per inch
-        Robot.driveSub.resetEncoders();
+        // Robot.driveSub.leftPairEncoder.setDistancePerPulse(distancePerPulse);
+        // Robot.driveSub.rightPairEncoder.setDistancePerPulse(distancePerPulse); //6 inch wheel, one pulse per inch
+        // Robot.driveSub.resetEncoders();
     }
 
-    // Called repeatedly when this Command is scheduled to run
     @Override
-    protected void execute() {
-        distR = Robot.driveSub.rightPairEncoder.getDistance();
-        distL = Robot.driveSub.leftPairEncoder.getDistance();
-
-        // SmartDashboard.putString("Dist L", Double.toString(distL));
-        // SmartDashboard.putString("Dist R", Double.toString(distR));
-        switch(this.curStage){
-            case 0://begin
-                new limelight();
-                nextStage();
-                break;
-            case 1:
-                AS_Advance(0.4, 5);
-                break;
-            case 2:
-                AS_Turn('R', 0.85, 0.6, 345);
-                break;
-            case 3:
-                AS_Advance(0.5, 0.50);
-                break;
-            case 4:
-                AS_Turn('L', 0.85, 0.6, 280);
-                break;
-            case 5:
-                AS_Advance(0.5, 5.0);
-                break;
-            case 6:
-                AS_Turn('L', 0.85, 0.36, 195);
-                break;
-            case 7:
-                AS_Advance(0.5, 15);
-                break;
-            case 8:
-                AS_Advance(0.5, 3);
-                // AS_Turn('R', -1,-0.45, 410);
-                break;
-            default:
-                Robot.driveSub.resetEncoders();
-                Robot.driveSub.stop();
-        }
+    protected void execute(){
+        SmartDashboard.putNumber("right front position", Robot._rghtFront.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("right follower position", Robot._rghtFollower.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("left front position", Robot._leftFront.getSelectedSensorPosition(0));
+        SmartDashboard.putNumber("left follower position", Robot._leftFollower.getSelectedSensorPosition(0));
+        Robot.driveSub.turn(1);
+        // resetValues();
     }
 
-    private void nextStage(){
-        Robot.driveSub.resetEncoders();
-        this.curStage++;
+
+    private void resetValues(){
+        Robot._rghtFront.set(TalonFXControlMode.Position, 0);
+        Robot._rghtFollower.set(TalonFXControlMode.Position, 0);
+
+        Robot._leftFront.set(TalonFXControlMode.Position, 0);
+        Robot._leftFollower.set(TalonFXControlMode.Position, 0);
     }
 
-    //1 steel (unit of distance) is roughly 26.67 inches
-    private void AS_Advance(double advanceSpeed, double distanceToTravel){
-        double distanceTraveled = 0.5*(distR+distL);
-        // SmartDashboard.putNumber("Distance traveled", distanceTraveled);
-        // SmartDashboard.putNumber("Distance to travel", distanceToTravel);
-        Robot.driveSub.driveStraight(advanceSpeed * invert);
-        if (distanceTraveled >= distanceToTravel){
-            nextStage();
-        }
-    }
+    // // Called repeatedly when this Command is scheduled to run
+    // @Override
+    // protected void execute() {
+    //     distR = Robot.driveSub.rightPairEncoder.getDistance();
+    //     distL = Robot.driveSub.leftPairEncoder.getDistance();
 
-    /* 
-        direction: R = turn right, L = turn left
-        power: amount of power given to robot. -1 = max power backwards -> 1 = max power forwards
-        steepness: how steep the turn is. 0 = straight -> 1 = very steep
-        outerDistanceToTravel: distance the outer wheel has to travel
-    */
-    private void AS_Turn(char direction, double power, double steepness, double outerDistanceToTravel){
-        double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
-        // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
-        Robot.driveSub.swivel(direction, 
-            direction=='R' ? power : power*(1-steepness), 
-            direction=='L' ? power : power*(1-steepness));
-        if (outerDistanceTraveled >= outerDistanceToTravel){
-            nextStage();
-        }
-    }
+    //     // SmartDashboard.putString("Dist L", Double.toString(distL));
+    //     // SmartDashboard.putString("Dist R", Double.toString(distR));
+    //     switch(this.curStage){
+    //         cas]]e 0://begin\
+    //             nextStage();
+    //             break;
+    //         case 1:
+    //             AS_Advance(0.4, 5);
+    //             break;
+    //         case 2:
+    //             AS_Turn('R', 0.85, 0.6, 345);
+    //             break;
+    //         case 3:
+    //             AS_Advance(0.5, 0.50);
+    //             break;
+    //         case 4:
+    //             AS_Turn('L', 0.85, 0.6, 280);
+    //             break;
+    //         case 5:
+    //             AS_Advance(0.5, 5.0);
+    //             break;
+    //         case 6:
+    //             AS_Turn('L', 0.85, 0.36, 195);
+    //             break;
+    //         case 7:
+    //             AS_Advance(0.5, 15);
+    //             break;
+    //         case 8:
+    //             AS_Advance(0.5, 3);
+    //             // AS_Turn('R', -1,-0.45, 410);
+    //             break;
+    //         default:
+    //             Robot.driveSub.resetEncoders();
+    //             Robot.driveSub.stop();
+    //     }
+    // }
+
+    // private void nextStage(){
+    //     Robot.driveSub.resetEncoders();
+    //     this.curStage++;
+    // }
+
+    // //1 steel (unit of distance) is roughly 26.67 inches
+    // private void AS_Advance(double advanceSpeed, double distanceToTravel){
+    //     double distanceTraveled = 0.5*(distR+distL);
+    //     // SmartDashboard.putNumber("Distance traveled", distanceTraveled);
+    //     // SmartDashboard.putNumber("Distance to travel", distanceToTravel);
+    //     Robot.driveSub.driveStraight(advanceSpeed * invert);
+    //     if (distanceTraveled >= distanceToTravel){
+    //         nextStage();
+    //     }
+    // }
+
+    // /* 
+    //     direction: R = turn right, L = turn left
+    //     power: amount of power given to robot. -1 = max power backwards -> 1 = max power forwards
+    //     steepness: how steep the turn is. 0 = straight -> 1 = very steep
+    //     outerDistanceToTravel: distance the outer wheel has to travel
+    // */
+    // private void AS_Turn(char direction, double power, double steepness, double outerDistanceToTravel){
+    //     double outerDistanceTraveled = (direction=='L') ? Math.abs(distR) : Math.abs(distL);
+    //     // SmartDashboard.putString("Outer distance traveled", Double.toString(Math.abs(outerDistanceTraveled)));
+    //     Robot.driveSub.swivel(direction, 
+    //         direction=='R' ? power : power*(1-steepness), 
+    //         direction=='L' ? power : power*(1-steepness));
+    //     if (outerDistanceTraveled >= outerDistanceToTravel){
+    //         nextStage();
+    //     }
+    // }
 
     // Make this return true when this Command no longer needs to run execute()
     @Override
