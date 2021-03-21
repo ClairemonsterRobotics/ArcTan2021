@@ -92,28 +92,26 @@ public class driveSub extends Subsystem {
     }
 
     //https://www.ctr-electronics.com/downloads/api/java/html/classcom_1_1ctre_1_1phoenix_1_1motorcontrol_1_1can_1_1_talon_f_x.html#a864a25124fe619649f1d53509ec756ec
-    public void driveStraight(double distance){//40 units of distance is 1.5 feet
-        distance*=1000;
+    // public void driveStraight(double distance){//40 units of distance is 1.5 feet
+    //     distance*=1000;
 
-        Robot._rghtFront.set(TalonFXControlMode.Position, -(distance + Robot._rghtFront.getSelectedSensorPosition(0)));
-        Robot._rghtFollower.set(TalonFXControlMode.Position, -(distance + Robot._rghtFront.getSelectedSensorPosition(0)));
+    // }
 
-        Robot._leftFront.set(TalonFXControlMode.Position, distance + Robot._rghtFront.getSelectedSensorPosition(0));
-        Robot._leftFollower.set(TalonFXControlMode.Position, distance + Robot._rghtFront.getSelectedSensorPosition(0));
+    public void driveStraight(double velocity){
+        Robot._rghtFront.set(TalonFXControlMode.Velocity, -velocity);
+        Robot._rghtFollower.set(TalonFXControlMode.Follower, 5);
+
+        Robot._leftFront.set(TalonFXControlMode.Velocity, velocity);
+        Robot._leftFollower.set(TalonFXControlMode.Follower, 0);
     }
 
     //https://www.ctr-electronics.com/downloads/api/java/html/classcom_1_1ctre_1_1phoenix_1_1motorcontrol_1_1can_1_1_talon_f_x.html#a864a25124fe619649f1d53509ec756ec
-    public void turn(double power){
-        // distance*=1000;
-        double leftPower = 0,
-               rightPower = 0;
+    public void turn(char direction, double speedL, double speedR){
+        Robot._rghtFront.set(TalonFXControlMode.Velocity, direction=='R' ? speedR : -speedR);
+        Robot._rghtFollower.set(TalonFXControlMode.Follower, 5);
 
-        Robot._leftFront.set(TalonFXControlMode.PercentOutput, leftPower);
-        Robot._leftFollower.set(TalonFXControlMode.PercentOutput, leftPower);
-
-        Robot._rghtFront.set(TalonFXControlMode.PercentOutput, rightPower);
-        Robot._rghtFollower.set(TalonFXControlMode.PercentOutput, rightPower);
-
+        Robot._leftFront.set(TalonFXControlMode.Velocity, direction=='R' ? speedL : -speedL);
+        Robot._leftFollower.set(TalonFXControlMode.Follower, 0);
     }
 
     @Override
