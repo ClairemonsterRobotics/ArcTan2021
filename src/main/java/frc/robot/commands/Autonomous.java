@@ -24,10 +24,10 @@ public class Autonomous extends Command {
     private class Instruction{
         private String type; //advance = go straight, turn = turn
         private char direction; //R or L - for turning
-        private double distance, //distance to travel
+        private double distance, //distance to travel. for turning, this will be the distance of the outer wheel
                        velocity, 
                        steepness, //for turning. value is from 0 to 1. high steepness = very steep turn, and vice versa
-                       targetPosition; //distance to travel, relative to position began at
+                       targetPosition; //distance to travel, relative to position began at. outer wheel for turning as well
 
         public Instruction(String type, double distance, double velocity){
             this.type = type;
@@ -104,7 +104,7 @@ public class Autonomous extends Command {
 
         Instruction instruction = instructions[curStage];
         instruction.execute();
-        if(instruction.hasFinished(lPos, rPos)){
+        if(instruction.hasFinished(lPos, rPos) && curStage<instructions.length){
             //move on to next instruction
             instruction = instructions[++curStage];
 
@@ -126,6 +126,7 @@ public class Autonomous extends Command {
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
+        if(curStage >= instructions.length) return true;
         return false;
     }
 
