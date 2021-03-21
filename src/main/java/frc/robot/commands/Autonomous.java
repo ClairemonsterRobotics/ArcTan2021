@@ -55,9 +55,9 @@ public class Autonomous extends Command {
 
         public boolean hasFinished(double lPos, double rPos){
             if(type.equals("advance"))//moving forward - get average distance of two sides
-                return (lPos+rPos)/2 < targetPosition;
+                return (lPos+rPos)/2 > targetPosition;
             else//turning - get distance of the outer sides
-                return direction == 'L' ? rPos<targetPosition : lPos<targetPosition;
+                return direction == 'L' ? rPos>targetPosition : lPos>targetPosition;
         }
     }
 
