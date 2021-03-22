@@ -44,20 +44,20 @@ public class Autonomous extends Command {
 
         public void execute(){
             if(type.equals("advance")){//going straight
-                Robot.driveSub.driveStraight(velocity);
+                Robot.driveSub.driveStraight(this.velocity);
             }else{//turning
                 //outer wheel must turn faster than inner wheel. if turning right, left (outer) wheel must turn faster.
-                double speedL = direction == 'R' ? velocity*(1-steepness) : velocity, 
-                       speedR = direction == 'L' ? velocity*(1-steepness) : velocity;
-                Robot.driveSub.turn(direction, speedL, speedR);
+                double speedL = this.direction == 'R' ? this.velocity*(1-this.steepness) : this.velocity, 
+                       speedR = this.direction == 'L' ? this.velocity*(1-this.steepness) : this.velocity;
+                Robot.driveSub.turn(this.direction, speedL, speedR);
             }
         }
 
         public boolean hasFinished(double lPos, double rPos){
             if(type.equals("advance"))//moving forward - get average distance of two sides
-                return (lPos+rPos)/2 > targetPosition;
+                return (lPos+rPos)/2 > this.targetPosition;
             else//turning - get distance of the outer sides
-                return direction == 'L' ? rPos>targetPosition : lPos>targetPosition;
+                return this.direction == 'L' ? rPos > this.targetPosition : lPos > this.targetPosition;
         }
     }
 
