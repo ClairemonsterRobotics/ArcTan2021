@@ -95,6 +95,7 @@ public class Autonomous extends Command {
     // Called just before this Command runs the first time
     @Override
     protected void initialize() {
+        createTargetPosition(instructions[0]);
     }
 
     @Override
@@ -104,17 +105,10 @@ public class Autonomous extends Command {
 
         Instruction instruction = instructions[curStage];
         instruction.execute();
-        if(instruction.hasFinished(lPos, rPos) && curStage<instructions.length){
-            //move on to next instruction
-            instruction = instructions[++curStage];
 
-            //set target position to current position + target distance if going straight
-            //set target position to left (outer) wheel distance + desired distance if turning right, vice versa for turning left
-            instruction.targetPosition = 
-                        instruction.type.equals("advance") ? instruction.distance + (lPos+rPos)/2 : 
-                        instruction.direction == 'R' ? 
-                        instruction.distance + lPos : instruction.distance + rPos;
-
+        //create the next target position after current target position is reached (instruction has finished)
+        if(instruction.hasFinished(lPos, rPos) && ++curStage<instructions.length){
+            createTargetPosition(instructions[curStage]);
         }
 
         SmartDashboard.putNumber("right front position", Robot._rghtFront.getSelectedSensorPosition(0));
@@ -123,11 +117,21 @@ public class Autonomous extends Command {
         SmartDashboard.putNumber("left follower position", Robot._leftFollower.getSelectedSensorPosition(0));
     }
 
+    //set target position to current position + target distance if going straight
+    //set target position to left (outer) wheel distance + desired distance if turning right, vice versa for turning left
+    private void createTargetPosition(Instruction instruction){
+        instruction.targetPosition = 
+                    instruction.type.equals("advance") 
+                    ? 
+                    instruction.distance + (lPos+rPos)/2 : instruction.direction == 'R' 
+                    ? 
+                    instruction.distance + lPos : instruction.distance + rPos;
+    }
+
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-        if(curStage >= instructions.length) return true;
-        return false;
+        return curStage >= instructions.length;
     }
 
     // Called once after isFinished returns true
