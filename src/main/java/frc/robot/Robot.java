@@ -77,7 +77,7 @@ public class Robot extends TimedRobot {
                               _leftFront = new WPI_TalonFX(0),
                               _leftFollower = new WPI_TalonFX(1);
 
-    DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rghtFront);
+    public static DifferentialDrive _diffDrive = new DifferentialDrive(_leftFront, _rghtFront);
 
     Joystick _joystick = new Joystick(0);
 
