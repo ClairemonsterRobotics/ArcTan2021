@@ -121,8 +121,8 @@ public class driveSub extends Subsystem {
 
     public void subArcadeDrive(Joystick stick) {
         /* get gamepad stick values */
-double forw = +1 * Robot._joystick.getRawAxis(4); /* positive is forward */
-double turn = -1 * Robot._joystick.getRawAxis(1); /* positive is right */
+double forw = +1 * Robot._joystick.getRawAxis(1); /* positive is forward */
+double turn = -1 * Robot._joystick.getRawAxis(4); /* positive is right */
 boolean btn1 = Robot._joystick.getRawButton(1); /* is button is down, print joystick values */
 
 String work = "";
@@ -136,19 +136,19 @@ if (Math.abs(turn) < 0.10) {
 /* drive robot */
 Robot._diffDrive.arcadeDrive(forw, turn);
     /*
- * [2] Make sure Gamepad Forward is positive for FORWAR
+ * [2] Make sure Gamepad Forward is positive for FORWARD, and GZ is positive for 
  * RIGHT
  */
 
  work += " GF:" + forw + " GT:" + turn;
 /* get sensor values */
-// double leftPos = _leftFront.GetSelectedSensorPositio
-// double rghtPos = _rghtFront.GetSelectedSensorPositio
+// double leftPos = _leftFront.GetSelectedSensorPosition(0);
+// double rghtPos = _rghtFront.GetSelectedSensorPosition(0);
 double leftVelUnitsPer100ms = Robot._leftFront.getSelectedSensorVelocity(0);
 double rghtVelUnitsPer100ms = Robot._rghtFront.getSelectedSensorVelocity(0);
 work += " L:" + leftVelUnitsPer100ms + " R:" + rghtVelUnitsPer100ms;
 /*
- * drive motor at least 25%, Talons will auto-detect if
+ * drive motor at least 25%, Talons will auto-detect if sensor is out of phase
  */
 Robot._leftFront.getFaults(Robot._faults_L);
 Robot._rghtFront.getFaults(Robot._faults_R);
