@@ -122,7 +122,7 @@ public class driveSub extends Subsystem {
     public void subArcadeDrive(Joystick stick) {
         /* get gamepad stick values */
 double forw = +1 * Robot._joystick.getRawAxis(1); /* positive is forward */
-double turn = -1 * Robot._joystick.getRawAxis(4); /* positive is right */
+double turn = +1 * Robot._joystick.getRawAxis(4); /* positive is right */
 boolean btn1 = Robot._joystick.getRawButton(1); /* is button is down, print joystick values */
 
 String work = "";
@@ -134,7 +134,7 @@ if (Math.abs(turn) < 0.10) {
     turn = 0;
 }
 /* drive robot */
-Robot._diffDrive.arcadeDrive(forw, turn);
+Robot._diffDrive.arcadeDrive(turn, forw);
     /*
  * [2] Make sure Gamepad Forward is positive for FORWARD, and GZ is positive for 
  * RIGHT
